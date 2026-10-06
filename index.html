@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina Library Enterprise OS – Smart Digital Campus System</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/payments.css">
+  <link rel="stylesheet" href="css/camera.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/auth.css">
+
+  <!-- External Script Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- AUTHENTICATION OVERLAY -->
+  <div class="auth-overlay" id="login-screen" style="display: flex;">
+    <div class="auth-card">
+      <div class="auth-brand-row">
+        <div class="auth-brand-icon">L</div>
+        <div>
+          <div class="auth-title">Lumina Library</div>
+          <div class="auth-subtitle">Smart Digital Campus System</div>
+        </div>
+      </div>
+
+      <div class="auth-error-msg" id="auth-error"></div>
+
+      <form onsubmit="auth.handleLogin(event)">
+        <div class="auth-form-group">
+          <label class="auth-label">Username / Email</label>
+          <input type="text" id="auth-username" class="auth-input" placeholder="admin@lumina.edu" value="admin@lumina.edu" required autocomplete="username">
+        </div>
+
+        <div class="auth-form-group">
+          <label class="auth-label">Password</label>
+          <div class="auth-input-wrapper">
+            <input type="password" id="auth-password" class="auth-input" placeholder="••••••••" value="lumina2026" required autocomplete="current-password">
+            <button type="button" class="auth-toggle-pwd" id="auth-toggle-btn" onclick="auth.togglePassword()" title="Show/Hide Password">🙈</button>
+          </div>
+        </div>
+
+        <button type="submit" class="auth-submit-btn">🔐 Login to System</button>
+      </form>
+
+      <div class="auth-demo-hint">
+        Default Admin Credentials:<br>
+        <strong>Email:</strong> admin@lumina.edu | <strong>Password:</strong> lumina2026
+      </div>
+    </div>
+  </div>
+
+  <div class="app-container" style="display: none;">
+    <div id="sidebar-backdrop" class="sidebar-backdrop" onclick="app.closeMobileMenu()"></div>
+    <!-- SIDE NAVIGATION -->
+    <aside class="sidebar">
+      <div class="brand-header">
+        <div class="brand-logo">L</div>
+        <div>
+          <div class="brand-title">Lumina Library OS</div>
+          <div class="brand-subtitle">Smart Digital Campus v4.2</div>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-link active" data-view="dashboard" onclick="app.navigate('dashboard')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            Dashboard
+          </span>
+        </button>
+        <button class="nav-link" data-view="catalog" onclick="app.navigate('catalog')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            Books
+          </span>
+          <span class="nav-badge" id="nav-book-count">0</span>
+        </button>
+        <button class="nav-link" data-view="membership" onclick="app.navigate('membership')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            Members
+          </span>
+          <span class="nav-badge" id="nav-mem-count">0</span>
+        </button>
+        <button class="nav-link" data-view="circulation" onclick="app.navigate('circulation')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+            Issue / Return
+          </span>
+          <span class="nav-badge" style="background:var(--accent);" id="nav-loan-count">0</span>
+        </button>
+        <button class="nav-link" data-view="waiting-list" onclick="app.navigate('waiting-list')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            Waiting List
+          </span>
+          <span class="nav-badge" style="background:var(--warning);" id="nav-wait-count">0</span>
+        </button>
+        <button class="nav-link" data-view="book-request" onclick="app.navigate('book-request')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+            Book Requests
+          </span>
+          <span class="nav-badge" style="background:var(--purple);" id="nav-req-count">0</span>
+        </button>
+        <button class="nav-link" data-view="member-history" onclick="app.navigate('member-history')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            Member History
+          </span>
+        </button>
+        <button class="nav-link" data-view="book-history" onclick="app.navigate('book-history')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            Book History
+          </span>
+        </button>
+        <button class="nav-link" data-view="payments" onclick="app.navigate('payments')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            Payments
+          </span>
+          <span class="nav-badge" id="nav-fine-count">0</span>
+        </button>
+        <button class="nav-link" data-view="deposits" onclick="app.navigate('deposits')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            Deposits
+          </span>
+        </button>
+        <button class="nav-link" data-view="email-dispatch" onclick="app.navigate('email-dispatch')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            Email & Notifications
+          </span>
+          <span class="nav-badge" style="background:#ea4335;" id="nav-mail-count">0</span>
+        </button>
+        <button class="nav-link" data-view="history" onclick="app.navigate('history')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 14 14 10"></polyline></svg>
+            Audit
+          </span>
+          <span class="nav-badge" style="background:#475569;" id="nav-hist-count">0</span>
+        </button>
+        <button class="nav-link" data-view="analytics" onclick="app.navigate('analytics')">
+          <span class="nav-link-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            Analytics
+          </span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="undo-card">
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-weight:700;">
+            <span>Action Memory</span>
+            <span id="undo-count" style="color:var(--text-muted);">0</span>
+          </div>
+          <button class="btn btn-sm" id="btn-undo" onclick="app.executeUndo()" disabled>
+            ↩️ Undo Last Action
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CONTENT WRAPPER -->
+    <div class="content-wrapper">
+      <header class="top-header">
+        <button id="mobile-menu-btn" class="mobile-menu-toggle" onclick="app.toggleMobileMenu()" title="Toggle Navigation Menu">☰</button>
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="global-search" placeholder="Type Book ID (BST Search O(log n)), Title or ISBN..." onkeyup="app.handleGlobalSearch(event)">
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-sm" onclick="app.openFeedbackModal()" style="border-color:#bfdbfe; color:var(--accent);">
+            ⭐ Submit Feedback
+          </button>
+          <button class="btn btn-sm" onclick="auth.logout()" style="border-color:#fca5a5; color:var(--danger); font-weight:700;">
+            🚪 Logout
+          </button>
+          <div class="user-pill">
+            <div class="avatar-circle">L</div>
+            <div>
+              <div style="font-size: 0.84rem; font-weight: 700;">Library Admin</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted);">Central University System</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-body" id="main-content"></main>
+    </div>
+  </div>
+
+  <!-- SMART AI ADVISOR FLOATING TRIGGER & UI -->
+  <div class="chatbot-fab" onclick="app.toggleChatbot()">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+  </div>
+
+  <div class="chat-window" id="chat-window" style="display: none;">
+    <div class="chat-header">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:1.15rem;">🧭</span>
+        <div>
+          <span style="font-weight:800; font-size:0.95rem; display:block;">Smart AI Library Advisor</span>
+          <span style="font-size:0.7rem; opacity:0.9;">Goal-Oriented Curriculum & Stock Guidance</span>
+        </div>
+      </div>
+      <button onclick="app.toggleChatbot()" style="background:none; border:none; color:white; cursor:pointer; font-size:1.15rem;">✕</button>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <form class="chat-input-row" onsubmit="app.handleChatSubmit(event)">
+      <input type="text" id="chat-input" placeholder="E.g., I want to learn Data Science, where do I start?" autocomplete="off">
+      <button type="submit" class="btn btn-primary btn-sm">Advise</button>
+    </form>
+  </div>
+
+  <div class="modal-backdrop" id="app-modal" style="display: none;" onclick="if(event.target===this) app.closeModal();">
+    <div class="modal-dialog" id="modal-content"></div>
+  </div>
+
+  <div class="toast-tray" id="toast-root"></div>
+
+  <!-- Authentication Script -->
+  <script src="js/auth/auth.js"></script>
+
+  <!-- DSA Data Structures & Utilities -->
+  <script src="js/dsa/bst.js"></script>
+  <script src="js/dsa/linked-list.js"></script>
+  <script src="js/dsa/queue.js"></script>
+  <script src="js/dsa/stack.js"></script>
+  <script src="js/dsa/sorting.js"></script>
+
+  <!-- Data Files -->
+  <script src="js/data/books.js"></script>
+  <script src="js/data/members.js"></script>
+  <script src="js/data/seed-data.js"></script>
+
+  <!-- API Client Wrapper -->
+  <script src="js/api/api-client.js?v=8"></script>
+
+  <!-- Core Controller Class & Initialization -->
+  <script src="js/app.js"></script>
+
+  <!-- Storage & Notifications -->
+  <script src="js/storage/local-storage.js?v=8"></script>
+  <script src="js/notifications/notifications.js"></script>
+
+  <!-- Camera & Payments -->
+  <script src="js/camera/camera.js"></script>
+  <script src="js/payments/payment.js"></script>
+  <script src="js/payments/qr-payment.js"></script>
+
+  <!-- AI Assistant -->
+  <script src="js/ai/ai-library-assistant.js"></script>
+
+  <!-- Feature Modules -->
+  <script src="js/features/dashboard.js"></script>
+  <script src="js/features/catalog.js"></script>
+  <script src="js/features/membership.js?v=8"></script>
+  <script src="js/features/circulation.js"></script>
+  <script src="js/features/waiting-list.js"></script>
+  <script src="js/features/book-request.js"></script>
+  <script src="js/features/member-history.js"></script>
+  <script src="js/features/book-history.js"></script>
+  <script src="js/features/payments.js"></script>
+  <script src="js/features/deposits.js"></script>
+  <script src="js/features/email-dispatch.js"></script>
+  <script src="js/features/reminders.js"></script>
+  <script src="js/features/analytics.js"></script>
+  <script src="js/features/feedback.js"></script>
+  <script src="js/features/reviews.js"></script>
+  <script src="js/features/profile.js"></script>
+  <script src="js/features/history.js"></script>
+</body>
+</html>

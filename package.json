@@ -1,0 +1,31 @@
+{
+  "name": "lumina-library",
+  "version": "1.0.0",
+  "description": "Lumina Library - Complete Enterprise Library Management System with SQLite Database, Real Librarian AI, and DSA Data Structures",
+  "main": "server/server-complete.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server/server-complete.js",
+    "test": "node server/test-server-complete.js && node server/test-frontend-integration.js",
+    "test:backend": "node server/test-server-complete.js",
+    "test:integration": "node server/test-frontend-integration.js",
+    "test:audit": "node server/test-audit.js",
+    "audit:cleanup": "node server/cleanup-audit-data.js",
+    "audit:cleanup:apply": "node server/cleanup-audit-data.js --apply",
+    "test:waitlist": "node server/test-waitlist.js",
+    "test:ai": "node server/test-ai.js",
+    "test:ai:ui": "python3 server/test-ai-ui.py",
+    "test:bookid": "node server/test-custom-book-id.js",
+    "cleanup:all": "node server/cleanup-all-data.js",
+    "cleanup:all:apply": "node server/cleanup-all-data.js --apply",
+    "test:cleanup": "node server/test-cleanup-all-data.js",
+    "test-db": "node server/test-support/build-test-db.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "sqlite3": "^5.1.7"
+  }
+}

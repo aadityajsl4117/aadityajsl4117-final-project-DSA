@@ -1,0 +1,30 @@
+/* PAYMENT & QR CODE STYLES */
+.payment-receipt-wrap {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 24px;
+  padding: 24px;
+}
+.payment-card-left {
+  background: #fafbfc;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.qr-visual-box {
+  background: #ffffff;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  margin: 14px 0;
+  border: 1px solid #bfdbfe;
+}
+.payment-card-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
