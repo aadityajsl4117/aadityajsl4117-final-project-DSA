@@ -1,6 +1,6 @@
 const API_BASE_URL = (() => {
     if (typeof window === 'undefined') return 'http://localhost:3000/api';
-    return '/api';
+    return 'https://aadityajsl4117-final-project-dsa.onrender.com/api';
 })();
 
 class LuminaAPIClient {
