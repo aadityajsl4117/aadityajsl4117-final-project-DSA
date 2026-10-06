@@ -1,11 +1,6 @@
-const API_BASE_URL = (function() {
-  if (typeof window === 'undefined') return 'http://localhost:3000/api';
-  const port = window.location.port;
-  if (port === '3000') {
+const API_BASE_URL = (() => {
+    if (typeof window === 'undefined') return 'http://localhost:3000/api';
     return '/api';
-  }
-  const hostname = window.location.hostname && window.location.hostname !== '' ? window.location.hostname : 'localhost';
-  return `http://${hostname}:3000/api`;
 })();
 
 class LuminaAPIClient {
