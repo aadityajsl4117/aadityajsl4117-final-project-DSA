@@ -3,3 +3,7 @@ node_modules/
 *.db-wal
 *.db-shm
 .DS_Store
+
+# Local environment secrets
+.env.local
+.env.*.local

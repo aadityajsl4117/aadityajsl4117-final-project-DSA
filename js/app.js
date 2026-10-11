@@ -2,9 +2,9 @@ class LuminaLibrary {
   constructor() {
     window.app = this;
     this.STORAGE_KEY = "luminaLibraryState_2026_enterprise_sih_v4";
-    this.emailjsPublicKey = "Ljk6p1rGszhXv3Kax";
-    this.emailjsServiceID = "libraryamrita.edu";
-    this.emailjsTemplateID = "template_dy3ud3i";
+    this.emailjsPublicKey = "Qereu--JFmAuxILdU";
+    this.emailjsServiceID = "librarymanagement.edu";
+    this.emailjsTemplateID = "template_hh6n15c";
     this.fineRatePerDay = 5.0; // ₹5.00/day fine rate
     
     const today = new Date();
